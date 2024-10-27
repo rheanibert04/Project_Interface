@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Project Interface</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                color: #333;
+                margin-bottom: 100px;
+            }
+            .worker-task {
+                width: 90%;
+                margin: auto;
+            }
+            h2,
+            h4 {
+                color: #333;
+            }
+            textarea {
+                width: 95%;
+                padding: 10px;
+                margin-top: 10px;
+                font-family: Arial, sans-serif;
+            }
+            ul,
+            p {
+                margin-left: 20px;
+            }
+            .instructions,
+            .section {
+                margin-bottom: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 10px;
+            }
+            .important {
+                color: red;
+                font-weight: bold;
+            }
+            ol {
+                margin-left: 30px;
+            }
+            strong {
+                font-weight: bold;
+            }
+            .dropdown {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+            }
+            .arrow {
+                margin-right: 10px;
+                transition: transform 0.3s;
+            }
+            .content {
+                display: block;
+                margin-top: 10px;
+            }
+            .document {
+                margin-bottom: 20px;
+            }
+            .submit-button {
+                background-color: #007bff;
+                color: white;
+                border: none;
+                padding: 15px 30px;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                transition: background-color 0.3s ease;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .submit-button:hover {
+                background-color: #0056b3;
+            }
+            .long-input {
+                width: 100%; 
+                max-width: 600px; 
+            }
+        </style>
+        <script>
+            function toggleDropdown(event) {
+                const content = event.currentTarget.nextElementSibling;
+                const arrow = event.currentTarget.querySelector(".arrow");
+                content.style.display = content.style.display === "block" ? "none" : "block";
+                arrow.style.transform = content.style.display === "block" ? "rotate(90deg)" : "rotate(0deg)";
+            }
+
+            let documentCount = 1;
+
+            function addDocument() {
+                documentCount++;
+                const newDocument = document.createElement("div");
+                newDocument.className = "document";
+                newDocument.id = `document-${documentCount}`;
+                newDocument.innerHTML = `
+            <label>Document ${documentCount}</label><br>
+            <label>Upload PDF: <input type="file" accept="application/pdf" /></label><br>
+            <label>HTML Link: <input type="text" class="long-input" placeholder="Enter document link" /></label><br />
+
+            <label>Date Published: <input type="date"></label><br>
+            <button class="remove-button" onclick="removeDocument(this)">Remove</button>
+        `;
+                document.getElementById("upload-section").appendChild(newDocument);
+            }
+
+            function removeDocument(button) {
+                const documentDiv = button.parentElement;
+                documentDiv.remove();
+                updateDocumentLabels();
+            }
+
+            function updateDocumentLabels() {
+                const documents = document.querySelectorAll(".document");
+                documentCount = 0;
+                documents.forEach((doc, index) => {
+                    documentCount++;
+                    doc.id = `document-${documentCount}`;
+                    const label = doc.querySelector("label");
+                    label.innerHTML = `Document ${documentCount}`;
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <div class="worker-task">
+            <div class="instructions">
+                <div class="dropdown" onclick="toggleDropdown(event)">
+                    <span class="arrow">▼</span>
+                    <h2>Project Overview</h2>
+                </div>
+                <div class="content">
+                    <p>
+                        Hello everyone! This is a new project for workers with a background in finance to write <strong>prompts and responses</strong> about publicly available filings. This project is complex and requires many steps, so
+                        please only work on it if you have intermediate to advanced knowledge of finance and are confident in your understanding of the instructions. <u>You may log time spent learning and reading the instructions.</u>
+                        <br />
+                        <br />
+                        <strong>Note:</strong> This is a pilot project, so please leave any questions, comments, or concerns in the chat so an admin or other workers can assist and guide you. <br />
+                        <br />
+                        In this project, each task consists of <strong><u>three (3) sections</u></strong>. Thoroughly read the instructions for each section before beginning to work on the project. When working on a task, each of the three
+                        sections should be completed sequentially, starting with Section 1, then Section 2, and finally Section 3.
+                    </p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="dropdown" onclick="toggleDropdown(event)">
+                    <span class="arrow">▼</span>
+                    <h2><span style="color: #38761d;">Section 1:</span> Choose Documents</h2>
+                </div>
+                <div class="content">
+                    <p>
+                        In this section, you will need to choose between <strong>1-40</strong> documents to gather information for your prompt/response pair. You will be using <strong>10-K or 10-Q annual/quarterly reports</strong> available
+                        publicly, which you can search for at this link: <a href="https://www.sec.gov/edgar/searchedgar/companysearch" target="_blank">https://www.sec.gov/edgar/searchedgar/companysearch</a>.
+                    </p>
+                    <p>
+                        Form <strong>10-K</strong> and Form <strong>10-Q</strong> are official reports that publicly traded companies in the United States must file with the U.S. Securities and Exchange Commission (SEC) as part of their
+                        regulatory obligations. These filings provide detailed financial and operational information, giving investors and the public a clear picture of the company's performance and business activities.
+                    </p>
+                    <p>Please follow these steps to find and select the forms. It is recommended to read the instructions for Sections 2 and 3 before carrying out these steps to understand what the documents will be used for.</p>
+                    <ol>
+                        <li>Visit <a href="https://www.sec.gov/edgar/searchedgar/companysearch" target="_blank">https://www.sec.gov/edgar/searchedgar/companysearch</a>.</li>
+                        <li>Enter the name of a publicly traded company (one whose shares are listed and traded on a public stock exchange) in the “Company Search” box.</li>
+                        <li>Click on your chosen company in the dropdown menu that appears.</li>
+                        <li>On the right of your screen, click the option under “Selected Filings” titled “10-K (annual reports) and 10-Q (quarterly reports)” to view available forms.</li>
+                        <li>Click on the form you wish to use and write down the date it was published. <span class="important">IMPORTANT: Only use documents published in October 2023 or more recently.</span></li>
+                        <li>
+                            Save the form as a PDF. To do this, (1) Click on the “Menu” option on the top left of the page, (2) Click “Open as HTML”, (3) Write down the HTML link to the document (copy and paste from address bar of HTML page), (4) Save the document as a PDF (e.g. Select “Print” (or command/ctrl + P) and set
+                            the destination to “Save as PDF” to save the PDF file.)
+                        </li>
+                        <li>Repeat 1-40 times to gather all documents you wish to use.</li>
+                    </ol>
+                    <p>You will complete the box for “Uploaded Documents” in Section 1 using the information you have gathered.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="dropdown" onclick="toggleDropdown(event)">
+                    <span class="arrow">▼</span>
+                    <h2><span style="color: #b45f06;">Section 2:</span> Write Your Prompt</h2>
+                </div>
+                <div class="content">
+                    <p><span class="important">IMPORTANT: Do not include PII in your prompt.</span></p>
+                    <p>
+                        In this section, you will write a prompt/question that can be answered using your above documents. Ensure your prompt requires information from at least 1 document and at most 40. We are looking for three types of
+                        questions in this project—-please distribute your submissions relatively evenly among the categories.
+                    </p>
+                    <ol>
+                        <li><strong>Category A:</strong> Simple questions about a single document.</li>
+                        <ul>
+                            <li>Example: <i>As of the quarter ending on June 30, 2024, what was the total net revenue for Starbucks?</i></li>
+                        </ul>
+                        <li>
+                            <strong>Category B:</strong> Hard questions about a single document where the answer requires using multiple parts/paragraphs from the report, or requires inferring information or computing numbers not readily
+                            available in the report.
+                        </li>
+                        <ul>
+                            <li>
+                                Example:
+                                <i>
+                                    Compute Starbucks' total operating margin for the quarter ending June 30, 2024, and compare it to the same quarter in 2023. Is the margin improvement or decline consistent with changes in key operating
+                                    expenses like wages and benefits or occupancy costs?
+                                </i>
+                            </li>
+                        </ul>
+                        <li><strong>Category C:</strong> Hard questions that require using information from 2, 3, or more reports (up to 40 reports); for example, reports from companies in a similar sector.</li>
+                        <ul>
+                            <li>
+                                Example:
+                                <i>
+                                    Compare the financial performance of franchise-heavy models (e.g., Dunkin’ and McDonald’s) versus primarily company-owned models (e.g., Starbucks and Chipotle) using their income statements and balance
+                                    sheets. Which model is currently yielding better profitability and why? How does the choice between franchising and company ownership impact cash flow stability and growth potential?
+                                </i>
+                            </li>
+                        </ul>
+                    </ol>
+                    <p>You will write your prompt in the “Prompt” box and select the appropriate category in the “Category” question.</p>
+                    <p><strong>Note:</strong> Prompts should ask for factual information with support in the documents (e.g. no opinions, unless they are stated in the documents).</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="dropdown" onclick="toggleDropdown(event)">
+                    <span class="arrow">▼</span>
+                    <h2><span style="color: #674ea7;">Section 3:</span> Write Your Response</h2>
+                </div>
+                <div class="content">
+                    <p>
+                        <span class="important">
+                            IMPORTANT: Do not include PII in your response.<br />
+                            IMPORTANT: Responses should be written by YOU, not an AI model
+                        </span>
+                    </p>
+                    <p>In this section, you will write an ideal response to your prompt. Please follow these steps:</p>
+                    <ol>
+                        <li>
+                            Write your direct answer to the prompt in the “Response” box, answering the prompt as thoroughly as possible. Do not directly reference the documents in your answer. Your response should act as an ideal AI model
+                            response to a user's query, in which the user does not have access to the documents; these documents are just analyzed behind the scenes to gather information for a great answer. Your response will act as the
+                            basis of comparison against an AI model's response to your prompt in future projects.
+                        </li>
+                        <li>
+                            In the “Supporting Facts” box, include any supporting facts you relied on to answer the prompt in a numbered list. Each page or continuous range of pages you use from the documents should be recorded as a
+                            separate Supporting Fact. In other words, don't put too much information from many different pages in a single fact; please split these up. Do not directly mention the report in any way (e.g. do not say “This
+                            metric was found on page 63 in the Balance Sheet table”). Fill in this box with statements of fact or quotes from the document, without needing to cite your sources or state where the information came from. You
+                            will do this in the next step.
+                            <ul>
+                                <li>Example: <i>"Starbucks's net revenue was $7,516,000,000 as of the quarter ending on June 30, 2024"</i></li>
+                            </ul>
+                            <strong>Note:</strong> In the future, raters will evaluate a model's answers to the prompts you write; however, we don’t want them to have to read the supporting documents. We will provide them with your response
+                            and supporting facts to be able to judge the model answer. So, in the “Supporting Facts” box, be sure to include all the information a rater would need to fact-check the model’s response, with no mentions of the
+                            documents as these will not be accessible.
+                        </li>
+
+                        <li>
+                            Next, you will see the “Cited Sources” box. For each number in your “Supporting Facts” list, list the pages of the PDF file that your information came from. Include this as a numbered list as well, with your
+                            numbers aligning with the previous list. This will make it easier for reviewers to check your submission. Don't worry too much about your formatting here; just make it easy enough for another worker to
+                            understand.
+                        </li>
+                        <ul>
+                            <li>Example: <i>"1. Document 2, pages 13-15</i>" means Supporting Fact 1 came from pages 13-15 in the 2nd PDF you uploaded.</li>
+                            <li>Example: <i>"2. Document 3, page 60</i>" means Supporting Fact 2 came from page 60 in the 3rd PDF you uploaded.</li>
+                        </ul>
+                    </ol>
+
+                    <p>You can now submit your task!</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="dropdown" onclick="toggleDropdown(event)">
+                    <span class="arrow">▼</span>
+                    <h2>Example Task Flow</h2>
+                </div>
+                <div class="content">
+                    <p style="margin: 0;">This section provides an example of how an ideal task submission should be formatted. Follow the layout and examples provided below to guide your submission.</p>
+
+                    <h3>Choose Documents</h3>
+
+                    <div class="document-example">
+                        <label>Document 1:</label><br />
+                        <a href="https://raw.githubusercontent.com/jadesmithh80/CSVs/main/Starbucks.pdf" download="Example-Document.pdf">Example Uploaded Document</a><br />
+                        <label>HTML Link: <input type="text" value="https://www.sec.gov/Archives/edgar/data/829224/000082922424000042/sbux-20240630.htm" readonly class="long-input" /></label><br />
+
+                        <label>Date Published: <input type="date" value="2024-07-30" readonly /></label><br />
+                    </div>
+
+                    <h3>Prompt</h3>
+                    <p>As of the quarter ending on June 30, 2024, what was the total net revenue for Starbucks?</p>
+
+                    <h3>Category</h3>
+                    <p>A</p>
+
+                    <h3>Response</h3>
+                    <p>Starbucks's net revenue was $7,516,000,000 as of the quarter ending on June 30, 2024.</p>
+
+                    <h3>Supporting Facts</h3>
+                    <ol>
+                        <li>Starbucks's net revenue for the quarter was $7,516 in millions.</li>
+                    </ol>
+
+                    <h3>Cited Sources</h3>
+                    <ol>
+                        <li>Document 1, Page 4</li>
+                    </ol>
+
+                    <p style="margin: 0;">Review this example carefully to ensure your task submission follows the required structure and includes all necessary details.</p>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Reminders</h2>
+                <ul>
+                    <li><strong>Do not include PII in your prompt or response.</strong></li>
+                    <li><strong>Your response must be human-written, by you.</strong></li>
+                    <li>Only use documents published in October 2023 or later.</li>
+                    <li>Your prompt must require information from 1-40 uploaded documents.</li>
+                    <li>Your response and supporting facts must be <u>self-contained</u>, meaning they are understandable to an outside reviewer without needing to refer to the documents.</li>
+                    <li>Please leave any comments, questions, or concerns in the chat.</li>
+                </ul>
+            </div>
+            <div class="section" id="upload-section">
+                <h2><span style="color: #38761d;">Section 1:</span> Choose Documents</h2>
+                <p style="margin: 0;">
+                    Upload your documents here. Remember, these documents should be 10-K or 10-Q forms from
+                    <a href="https://www.sec.gov/edgar/searchedgar/companysearch" target="_blank">https://www.sec.gov/edgar/searchedgar/companysearch</a>
+                </p>
+                <br />
+                <button onclick="addDocument()" class="add-button">➕ Add Document</button>
+                <div class="document" id="document-1">
+                    <br />
+                    <label>Document 1</label><br />
+                    <label>Upload PDF: <input type="file" accept="application/pdf" /></label><br />
+                    <label>HTML Link: <input type="text" class="long-input" placeholder="Enter document link" /></label><br />
+
+                    <label>Date Published: <input type="date" /></label><br />
+                    <button class="remove-button" onclick="removeDocument(this)">Remove</button>
+                </div>
+            </div>
+            <div class="section">
+                <h2><span style="color: #b45f06;">Section 2:</span> Write Your Prompt</h2>
+                <div class="prompt-box">
+                    <label for="user-prompt">Write a prompt that requires information from your document(s).</label><br />
+                    <textarea id="user-prompt" rows="4" placeholder="Type your prompt here..."></textarea>
+                </div>
+                <div class="category-selection">
+                    <br />
+                    <p style="margin: 0;">Which category does your prompt belong to?</p>
+                    <br />
+                    <p style="margin: 0;">These are the category definitions. Try to distribute your submissions relatively evenly among the categories.</p>
+                    <ol>
+                        <li><strong>Category A:</strong> Simple questions about a single document.</li>
+                        <li>
+                            <strong>Category B:</strong> Hard questions about a single document where the answer requires using multiple parts/paragraphs from the report, or requires inferring information or computing numbers not readily
+                            available in the report.
+                        </li>
+                        <li><strong>Category C:</strong> Hard questions that require using information from 2, 3, or more reports (up to 40 reports); for example, reports from companies in a similar sector.</li>
+                    </ol>
+                    <br />
+                    <label>
+                        <input type="radio" name="category" value="A" />
+                        Category A (~33% of tasks)
+                    </label>
+                    <br />
+                    <label>
+                        <input type="radio" name="category" value="B" />
+                        Category B (~33% of tasks)
+                    </label>
+                    <br />
+                    <label>
+                        <input type="radio" name="category" value="C" />
+                        Category C (~33% of tasks)
+                    </label>
+                </div>
+            </div>
+            <div class="section">
+                <h2><span style="color: #674ea7;">Section 3:</span> Write Your Response</h2>
+                <div class="content">
+                    <h3>Response</h3>
+                    <p style="margin: 0;">
+                        Provide your response to the prompt below. Remember, the response should be written by YOU, not an AI. An ideal response will address every part of the prompt with correct information, while not referring directly to
+                        the documents as future workers will not have access to these. Your response should act as an ideal AI model response to a user's query.
+                    </p>
+                    <br />
+                    <div class="response-box">
+                        <textarea id="new-user-response" rows="6" placeholder="Type your response here..."></textarea>
+                    </div>
+                    <br />
+                    <h3>Supporting Facts</h3>
+                    <p style="margin: 0;">
+                        In a numbered list, write the supporting facts from the documents used to answer your prompt. Do not directly reference the documents in these facts; simply include them as a statement or quote. Try to split up
+                        separate pieces of information from different pages or page ranges into separate facts in the numbered list.
+                    </p>
+                    <p style="margin: 0;">
+                        <strong>Note: </strong> If your prompt belongs to Category A, it's okay if your supporting facts list is very similar to your response.
+                    </p>
+                    <br />
+                    <div class="supporting-facts-box">
+                        <textarea id="new-supporting-facts" rows="4" placeholder="Enter supporting facts here..."></textarea>
+                    </div>
+                    <br />
+                    <h3>Cited Sources</h3>
+                    <p style="margin: 0;">
+                        In a numbered list, write down where you retrieved the information for each of your supporting facts. For each fact, include the document number and the page number where you found it. The numbers in this list should
+                        correspond to the numbers in your Supporting Facts list. For example, the citation for Supporting Fact 3 should be #3 in the below list.
+                    </p>
+                    <br />
+                    <div class="cited-sources-box">
+                        <textarea id="new-cited-sources" rows="4" placeholder="List cited sources here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button class="submit-button">Submit</button>
+        </div>
+    </body>
+</html>
